@@ -21,7 +21,7 @@ public class GreetingController {
 
     @MessageMapping("/hello")
     @SendTo("/topic/bugs")
-    public List<Bug> bugs(HelloMessage message) throws Exception {
+    public List<Bug> bugs() throws Exception {
         List<Bug> bugs = new ArrayList<>();
         Bug bug = new Bug();
         bug.setDescription("NullPointerException at RefDbUploadManager.java:81");

@@ -4,6 +4,9 @@
     <title>Hello WebSocket</title>
     <script src="sockjs-0.3.4.js"></script>
     <script src="stomp.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+    <script src = "http://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
     <script type="text/javascript">
         var stompClient = null;
         
@@ -50,7 +53,7 @@
         function tableCreate(el, data)
         {
             var tbl  = document.createElement("table");
-            tbl.style.width  = "70%";
+            tbl.className="table table-condensed";
 
             for (var i = 0; i < data.length; ++i)
             {
