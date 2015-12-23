@@ -4,7 +4,7 @@ import com.vmware.bugger.model.Culprit;
 import com.vmware.bugger.model.ErrorStack;
 import com.vmware.bugger.model.LogRequest;
 import com.vmware.bugger.model.Message;
-import com.vmware.bugger.modle.MailMessage;
+import com.vmware.bugger.model.MailMessage;
 import com.vmware.bugger.service.GitBlamerService;
 import com.vmware.bugger.service.MailUtil;
 import org.eclipse.jgit.api.errors.GitAPIException;

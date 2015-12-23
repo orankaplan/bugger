@@ -2,7 +2,7 @@ package com.vmware.bugger.service;
 
 
 import com.vmware.bugger.model.Culprit;
-import com.vmware.bugger.modle.MailMessage;
+import com.vmware.bugger.model.MailMessage;
 
 import javax.mail.Message;
 import javax.mail.MessagingException;

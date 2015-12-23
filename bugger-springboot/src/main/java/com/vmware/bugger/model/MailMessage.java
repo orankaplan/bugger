@@ -1,4 +1,4 @@
-package com.vmware.bugger.modle;
+package com.vmware.bugger.model;
 
 /**
  * Created by yshichel on 12/23/15.
