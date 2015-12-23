@@ -43,6 +43,8 @@ dependencies {
     compile("com.fasterxml.jackson.core:jackson-databind")
     compile("com.fasterxml.jackson.core:jackson-annotations")
     compile("commons-io:commons-io:2.4")
+    compile("org.springframework.boot:spring-boot-starter-websocket")
+    compile("org.springframework:spring-messaging")
 
     testCompile("org.springframework.boot:spring-boot-starter-test")
 }

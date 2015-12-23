@@ -3,6 +3,8 @@ package com.vmware.bugger.controller;
 import com.vmware.bugger.model.*;
 import com.vmware.bugger.service.GitBlamerService;
 import com.vmware.bugger.service.MailUtil;
+import com.vmware.bugger.model.Bug;
+import com.vmware.bugger.service.BugRepository;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,6 +23,9 @@ import java.util.stream.Collectors;
 @RestController
 @EnableAutoConfiguration
 public class BuggerController {
+
+    @Autowired
+    BugRepository bugRepository;
 
     private static final Logger logger = LoggerFactory.getLogger(BuggerController.class);
     @Autowired
@@ -72,6 +77,7 @@ public class BuggerController {
                     clzzs.add(m.group(1));
                 }
             }
+            Bug bug = new Bug();
             List<Culprit> culprits = gitBlamerService.blame(new ErrorStack(clzzs));
             for (Culprit culprit : culprits.stream().filter(c -> c.getEmail().equals("gabi@vmware.com")).collect(Collectors.toList())) {
                 StringBuilder sb = new StringBuilder();
@@ -84,7 +90,10 @@ public class BuggerController {
                         .append(stackTrace);
 
                 sendEmail(culprit, sb.toString());
+                bug.setDescription(culprit.getFullMessage());
+                bug.addBlamers(culprit.getName());
             }
+            bugRepository.addBugs(bug);
         }
         return "Hello World! post";
     }
