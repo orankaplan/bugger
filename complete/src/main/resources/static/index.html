@@ -55,13 +55,31 @@
             var tbl  = document.createElement("table");
             tbl.className="responstable";
 
+            var tr = tbl.insertRow();
+            var td = document.createElement("th");
+            tr.appendChild(td);
+            td.appendChild(document.createTextNode(""));
+            var td1 = document.createElement("th");
+            tr.appendChild(td1);
+            td1.appendChild(document.createTextNode("Bug description"));
+            var td2 = document.createElement("th");
+            tr.appendChild(td2);
+            td2.appendChild(document.createTextNode("Potential Culprit"));
+            var td3 = document.createElement("th");
+            tr.appendChild(td3);
+            td3.appendChild(document.createTextNode("Status"));
+
             for (var i = 0; i < data.length; ++i)
             {
                 var tr = tbl.insertRow();
                 var td = tr.insertCell();
+                td.type="radio";
+                td = tr.insertCell();
                 td.appendChild(document.createTextNode(data[i].description.toString()));
                 td = tr.insertCell();
                 td.appendChild(document.createTextNode(data[i].blamers.toString()));
+                td = tr.insertCell();
+                td.appendChild(document.createTextNode("Not claimed"));
             }
             el.appendChild(tbl);
         }
