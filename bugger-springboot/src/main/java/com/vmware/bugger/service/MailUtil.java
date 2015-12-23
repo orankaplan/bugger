@@ -1,6 +1,7 @@
 package com.vmware.bugger.service;
 
 
+import com.vmware.bugger.model.Culprit;
 import com.vmware.bugger.modle.MailMessage;
 
 import javax.mail.Message;
@@ -10,6 +11,7 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import java.io.UnsupportedEncodingException;
+import java.sql.Date;
 import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
@@ -35,6 +37,14 @@ public class MailUtil {
         for(MailMessage mailMessage : mailMessages){
             Send(mailMessage.getRecipient(),mailMessage.getMessage());
             System.out.println("Mail sent to:" + mailMessage.getRecipient());
+        }
+        return true;
+    }
+    public boolean SendCulpritMail(List<Culprit> mailMessages) {
+        for(Culprit culprit : mailMessages){
+            Date date = new java.sql.Date(culprit.getModifiedDate());
+            Send(culprit.getEmail(),"some culprit msg, name: "+culprit.getName()+ " date: "+date);
+            System.out.println("Mail sent to:" + culprit.getEmail());
         }
         return true;
     }
