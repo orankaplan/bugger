@@ -1,4 +1,4 @@
-package hello;
+package com.vmware.bugger.service;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;
