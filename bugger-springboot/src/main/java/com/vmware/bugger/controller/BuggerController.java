@@ -22,6 +22,7 @@ import com.vmware.bugger.model.LogRequest;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 @RestController
 @EnableAutoConfiguration
@@ -30,6 +31,7 @@ public class BuggerController {
     private static final Logger logger = LoggerFactory.getLogger(BuggerController.class);
     @Autowired
     private GitBlamerService gitBlamerService;
+    private HashSet<String> exceptionCache = new HashSet<>();
 
     @RequestMapping(method = RequestMethod.GET)
     List<Culprit> get() {
@@ -51,6 +53,10 @@ public class BuggerController {
         Pattern r = Pattern.compile(pattern);
         for (Message message : logRequest.getMessages()) {
             String stackTrace = message.getText();
+            if (exceptionCache.contains(stackTrace)) {
+                continue;
+            }
+            exceptionCache.add(stackTrace);
             Set<String> clzzs = new HashSet<>();
             for (String line : stackTrace.split("\n")) {
                 Matcher m = r.matcher(line);
@@ -58,16 +64,19 @@ public class BuggerController {
                     clzzs.add(m.group(1));
                 }
             }
-            List<Culprit> blame = gitBlamerService.blame(new ErrorStack(clzzs));
+            List<Culprit> culprits = gitBlamerService.blame(new ErrorStack(clzzs));
+            for (Culprit culprit : culprits.stream().filter(c -> c.getEmail().equals("gabi@vmware.com")).collect(Collectors.toList())) {
+                String msg = culprit.getFullMessage();
+                sendEmail(culprit, msg);
+            }
 
         }
 
         return "Hello World! post";
     }
 
-    public boolean sendEmail(){
-        String messageBody = "Bug Description: blablablablablablablablablablablablablablablablablablablablablablablablabla";
-        MailMessage mailMessage = new MailMessage("shyotam1@gmail.com",messageBody);
+    public boolean sendEmail(Culprit culprit, String message){
+        MailMessage mailMessage = new MailMessage(culprit.getEmail(), message);
         List<MailMessage> mailMessages = new ArrayList<>();
         mailMessages.add(mailMessage);
         MailUtil mailUtil= new MailUtil();
