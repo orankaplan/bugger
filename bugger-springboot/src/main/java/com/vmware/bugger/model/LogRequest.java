@@ -12,6 +12,11 @@ public class LogRequest {
     Double HitCount;
     Integer HitOperator;
     List<Message> Messages;
+    Boolean HasMoreResults;
+    String Url;
+    String EditUrl;
+    String Info;
+    Integer NumHits;
 
     public Integer getAleryType() {
         return AleryType;
@@ -59,5 +64,45 @@ public class LogRequest {
 
     public void setMessages(List<Message> messages) {
         Messages = messages;
+    }
+
+    public Boolean getHasMoreResults() {
+        return HasMoreResults;
+    }
+
+    public void setHasMoreResults(Boolean hasMoreResults) {
+        HasMoreResults = hasMoreResults;
+    }
+
+    public String getUrl() {
+        return Url;
+    }
+
+    public void setUrl(String url) {
+        Url = url;
+    }
+
+    public String getEditUrl() {
+        return EditUrl;
+    }
+
+    public void setEditUrl(String editUrl) {
+        EditUrl = editUrl;
+    }
+
+    public String getInfo() {
+        return Info;
+    }
+
+    public void setInfo(String info) {
+        Info = info;
+    }
+
+    public Integer getNumHits() {
+        return NumHits;
+    }
+
+    public void setNumHits(Integer numHits) {
+        NumHits = numHits;
     }
 }

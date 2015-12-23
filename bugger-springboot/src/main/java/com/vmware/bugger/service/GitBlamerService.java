@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * Created by abadyan on 23/12/15.
  */
-public class GitBlamer {
+public class GitBlamerService {
     public List<Culprit> blame(ErrorStack errorStack) {
         return null;
     }
