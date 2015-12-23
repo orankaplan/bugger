@@ -62,5 +62,8 @@
     <orderEntry type="library" exported="" name="Gradle: org.apache.httpcomponents:httpcore:4.4.4" level="project" />
     <orderEntry type="library" exported="" name="Gradle: commons-codec:commons-codec:1.9" level="project" />
     <orderEntry type="library" exported="" name="Gradle: commons-io:commons-io:2.4" level="project" />
+    <orderEntry type="library" exported="" name="Gradle: javax.mail:javax.mail-api:1.5.1" level="project" />
+    <orderEntry type="library" exported="" name="Gradle: com.sun.mail:javax.mail:1.5.1" level="project" />
+    <orderEntry type="library" exported="" name="Gradle: javax.activation:activation:1.1" level="project" />
   </component>
 </module>

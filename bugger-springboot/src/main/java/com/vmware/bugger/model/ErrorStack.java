@@ -1,27 +1,27 @@
 package com.vmware.bugger.model;
 
-import java.util.List;
+import java.util.Set;
 
 /**
  * Created by abadyan on 23/12/15.
  */
 public class ErrorStack {
-    public ErrorStack(List<String> classNames) {
+    public ErrorStack(Set<String> classNames) {
         this.classNames = classNames;
     }
 
-    private List<String> classNames;
+    private Set<String> classNames;
 
     public ErrorStack() {
 
     }
 
 
-    public List<String> getClassNames() {
+    public Set<String> getClassNames() {
         return classNames;
     }
 
-    public void setClassNames(List<String> classNames) {
+    public void setClassNames(Set<String> classNames) {
         this.classNames = classNames;
     }
 }

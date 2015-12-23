@@ -23,6 +23,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -61,7 +62,7 @@ public class GitBlamerService {
         return culprits;
     }
 
-    private List<String> extractPaths(List<String> classNames) {
+    private List<String> extractPaths(Set<String> classNames) {
         File root = git.getRepository().getWorkTree();
         return classNames.stream().map(name ->
                 FileUtils.listFiles(root, new NameFileFilter(name), TrueFileFilter.INSTANCE).iterator().next())

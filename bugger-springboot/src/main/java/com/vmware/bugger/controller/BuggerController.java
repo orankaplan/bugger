@@ -17,9 +17,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import com.vmware.bugger.model.LogRequest;
+
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -32,12 +32,11 @@ public class BuggerController {
     private GitBlamerService gitBlamerService;
 
     @RequestMapping(method = RequestMethod.GET)
-    List<Culprit>  get() {
-        //if(sendEmail()) System.out.println("Finish sending mails");
+    List<Culprit> get() {
         List<Culprit> culprits = null;
         try {
             final ErrorStack errorStack = new ErrorStack();
-            errorStack.setClassNames(Arrays.asList("ErrorDTO.java", "hq-plugin.xml"));
+            errorStack.setClassNames(new HashSet<>(Arrays.asList("IisDetector.java", "hq-plugin.xml")));
             culprits = gitBlamerService.blame(errorStack);
         } catch (GitAPIException e) {
             e.printStackTrace();
@@ -47,16 +46,16 @@ public class BuggerController {
 
     @RequestMapping(method = RequestMethod.POST, value = "/webhook", consumes = {"application/json"})
     String post(@RequestBody LogRequest logRequest) throws GitAPIException {
-        String pattern = "\\.*com.vmware.*\\((.*?\\.java\\:\\d*)\\)";
+        String pattern = "at com\\.vmware\\.itfm\\.cloud.*\\((.*\\.java):(\\d*)\\).*";
 
         Pattern r = Pattern.compile(pattern);
         for (Message message : logRequest.getMessages()) {
             String stackTrace = message.getText();
-            List<String> clzzs = new ArrayList<String>();
+            Set<String> clzzs = new HashSet<>();
             for (String line : stackTrace.split("\n")) {
                 Matcher m = r.matcher(line);
                 if(m.find()){
-                    clzzs.add(m.group());
+                    clzzs.add(m.group(1));
                 }
             }
             List<Culprit> blame = gitBlamerService.blame(new ErrorStack(clzzs));
