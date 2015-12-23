@@ -15,7 +15,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.vmware.bugger.model.LogRequest;
+
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -32,7 +36,9 @@ public class BuggerController {
     List<Culprit> get() {
         List<Culprit> culprits = null;
         try {
-            culprits = gitBlamerService.blame(new ErrorStack());
+            final ErrorStack errorStack = new ErrorStack();
+            errorStack.setClassNames(Arrays.asList("IisDetector.java", "hq-plugin.xml"));
+            culprits = gitBlamerService.blame(errorStack);
         } catch (GitAPIException e) {
             e.printStackTrace();
         }

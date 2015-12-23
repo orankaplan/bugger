@@ -20,4 +20,8 @@ public class ErrorStack {
     public List<String> getClassNames() {
         return classNames;
     }
+
+    public void setClassNames(List<String> classNames) {
+        this.classNames = classNames;
+    }
 }

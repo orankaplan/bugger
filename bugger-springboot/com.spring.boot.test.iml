@@ -61,5 +61,6 @@
     <orderEntry type="library" exported="" name="Gradle: org.eclipse.jdt:org.eclipse.jdt.annotation:1.1.0" level="project" />
     <orderEntry type="library" exported="" name="Gradle: org.apache.httpcomponents:httpcore:4.4.4" level="project" />
     <orderEntry type="library" exported="" name="Gradle: commons-codec:commons-codec:1.9" level="project" />
+    <orderEntry type="library" exported="" name="Gradle: commons-io:commons-io:2.4" level="project" />
   </component>
 </module>
