@@ -9,15 +9,8 @@ import java.util.Arrays;
 import java.util.List;
 
 @Controller
-public class GreetingController {
+public class BugsDisplayController {
 
-
-
-    @SendTo("/topic/greetings")
-    public Greeting greeting(HelloMessage message) throws Exception {
-        Thread.sleep(3000); // simulated delay
-        return new Greeting("Hello, " + message.getName() + "!");
-    }
 
     @MessageMapping("/hello")
     @SendTo("/topic/bugs")
