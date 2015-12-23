@@ -53,6 +53,14 @@ public class BuggerController {
         Pattern r = Pattern.compile(pattern);
         for (Message message : logRequest.getMessages()) {
             String stackTrace = message.getText();
+            String hostName = "localhost";
+            for (Field field : message.getFields()) {
+                if(field.getName().equals("hostname")){
+                    hostName=field.getContent();
+                    break;
+                }
+            }
+
             if (exceptionCache.contains(stackTraceSubString(stackTrace))) {
                 continue;
             }
@@ -67,13 +75,17 @@ public class BuggerController {
             List<Culprit> culprits = gitBlamerService.blame(new ErrorStack(clzzs));
             for (Culprit culprit : culprits.stream().filter(c -> c.getEmail().equals("gabi@vmware.com")).collect(Collectors.toList())) {
                 StringBuilder sb = new StringBuilder();
-                sb.append(culprit.getFullMessage()).append("\n\n")
-                        .append(culprit.getCommit()).append("\n\n").append(stackTrace);
+                sb.append("Bugger found the following events on host ").append(hostName).append(" matching the criteria for alert ").append(logRequest.getAlertName())
+                        .append("\n\n")
+                        .append(culprit.getFullMessage())
+                        .append("\n\n")
+                        .append(culprit.getCommit())
+                        .append("\n\n")
+                        .append(stackTrace);
 
                 sendEmail(culprit, sb.toString());
             }
         }
-
         return "Hello World! post";
     }
 
