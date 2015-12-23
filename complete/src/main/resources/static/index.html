@@ -38,7 +38,12 @@
         
         function showBugs(message) {
             var response = document.getElementById('response');
+            var oldP = document.getElementById('p')
+            if (oldP != undefined) {
+                response.removeChild(oldP);
+            }
             var p = document.createElement('p');
+            p.id="p";
             p.style.wordWrap = 'break-word';
             tableCreate(p, message);
             response.appendChild(p);
