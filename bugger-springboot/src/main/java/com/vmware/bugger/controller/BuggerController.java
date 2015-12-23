@@ -1,4 +1,4 @@
-package com.vmware.bugger;
+package com.vmware.bugger.controller;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.vmware.bugger.modle.LogRequest;
 
 @RestController
 @EnableAutoConfiguration
@@ -21,8 +23,9 @@ public class BuggerController {
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/webhook", consumes = {"application/json"})
-    String post(@RequestBody String body) {
-        logger.info(body);
+    String post(@RequestBody LogRequest body) {
+        logger.info(body.getAlertName());
+
         return "Hello World! post";
     }
 }
