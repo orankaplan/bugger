@@ -20,7 +20,7 @@ import java.util.logging.Logger;
 public class MailUtil {
 
     private String SMTP_HOST = "smtp.vmware.com";
-    private String FROM_ADDRESS = "yshichel@vmware.com";
+        private String FROM_ADDRESS = "bugger@vmware.com";
     private String FROM_NAME = "FindTheBugger";
     private String SUBJECT = "FindTheBugger has located a bug you may assist solving";
 
