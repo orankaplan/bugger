@@ -1,4 +1,4 @@
-package com.vmware.bugger.modle;
+package com.vmware.bugger.model;
 
 import java.util.List;
 

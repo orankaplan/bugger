@@ -1,4 +1,4 @@
-package com.vmware.bugger.modle;
+package com.vmware.bugger.model;
 
 /**
  * Created by okaplan on 23/12/15.
