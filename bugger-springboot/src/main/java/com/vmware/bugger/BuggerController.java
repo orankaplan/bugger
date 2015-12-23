@@ -10,9 +10,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @EnableAutoConfiguration
-public class Example {
+public class BuggerController {
 
-    private static final Logger logger = LoggerFactory.getLogger(Example.class);
+    private static final Logger logger = LoggerFactory.getLogger(BuggerController.class);
 
     @RequestMapping(method = RequestMethod.GET)
     String get() {
@@ -20,9 +20,9 @@ public class Example {
         return "Hello World! get";
     }
 
-    @RequestMapping(method = RequestMethod.POST, value = "/webhook")
-    String post(@RequestBody String requset) {
-        logger.info(requset);
+    @RequestMapping(method = RequestMethod.POST, value = "/webhook", consumes = {"application/json"})
+    String post(@RequestBody String body) {
+        logger.info(body);
         return "Hello World! post";
     }
 }
