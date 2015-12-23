@@ -35,6 +35,7 @@ dependencies {
     compile("org.eclipse.jgit:org.eclipse.jgit:4.1.1.201511131810-r")
     compile("org.springframework:spring-beans")
     compile("org.springframework:spring-core")
+
     compile("com.fasterxml.jackson.core:jackson-core")
     compile("com.fasterxml.jackson.core:jackson-databind")
     compile("com.fasterxml.jackson.core:jackson-annotations")
