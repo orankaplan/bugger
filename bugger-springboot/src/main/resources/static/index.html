@@ -10,13 +10,16 @@
     <script type="text/javascript">
         $( document ).ready(function() {
             connect();
+            setTimeout(function() {
+                sendName();
+            }, 300);
         });
 
         var stompClient = null;
 
         function connect() {
             var socket = new SockJS('/hello');
-            stompClient = Stomp.over(socket);            
+            stompClient = Stomp.over(socket);
             stompClient.connect({}, function(frame) {
                 console.log('Connected: ' + frame);
                 stompClient.subscribe('/topic/bugs', function(bugs){
@@ -24,18 +27,18 @@
                 });
             });
         }
-        
+
         function disconnect() {
             if (stompClient != null) {
                 stompClient.disconnect();
             }
             console.log("Disconnected");
         }
-        
+
         function sendName() {
             stompClient.send("/app/hello", {}, JSON.stringify({ 'name': '' }));
         }
-        
+
         function showBugs(message) {
             var response = document.getElementById('response');
             var oldP = document.getElementById('p')
@@ -48,7 +51,9 @@
             tableCreate(p, message);
             response.appendChild(p);
         }
-
+        function claim(){
+            $("#conversationDiv tbody tr input:checked").parent().parent().children().next().next().next().text("Claimed");
+        }
         function tableCreate(el, data)
         {
             var tbl  = document.createElement("table");
@@ -71,14 +76,19 @@
             for (var i = 0; i < data.length; ++i)
             {
                 var tr = tbl.insertRow();
+                var checkbox = document.createElement('input');
+                checkbox.type = "checkbox";
+                checkbox.name = "name";
                 var td = tr.insertCell();
-                td.type="radio";
+                td.appendChild(checkbox)
                 td = tr.insertCell();
                 td.appendChild(document.createTextNode(data[i].description.toString()));
                 td = tr.insertCell();
                 td.appendChild(document.createTextNode(data[i].blamers.toString()));
                 td = tr.insertCell();
-                td.appendChild(document.createTextNode("Not claimed"));
+                var node = document.createTextNode("Not claimed");
+                node.name = "status";
+                td.appendChild(node);
             }
             el.appendChild(tbl);
         }
@@ -186,8 +196,11 @@
     Javascript and reload this page!</h2></noscript>
 <div>
     <div id="conversationDiv">
-        <button id="sendName" onclick="sendName();">Start</button>
         <p id="response"></p>
+    </div>
+    <div align="right">
+        <button onclick="claim()">Claim Bug</button>
+        <button>Open in bugzilla</button>
     </div>
 </div>
 </body>
