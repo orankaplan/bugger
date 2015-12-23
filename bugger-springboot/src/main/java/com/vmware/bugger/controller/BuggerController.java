@@ -2,9 +2,9 @@ package com.vmware.bugger.controller;
 
 import com.vmware.bugger.model.Culprit;
 import com.vmware.bugger.model.ErrorStack;
+import com.vmware.bugger.model.LogRequest;
 import com.vmware.bugger.service.GitBlamerService;
 import org.eclipse.jgit.api.errors.GitAPIException;
-import com.vmware.bugger.model.LogRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,8 +13,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-
-import com.vmware.bugger.model.LogRequest;
 
 import java.util.List;
 
