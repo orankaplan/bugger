@@ -29,5 +29,9 @@ public class BugRepository {
         this.bugs = bugs;
     }
 
+    public void addBugs(Bug bug) {
+        this.bugs.add(bug);
+    }
+
     private List<Bug> bugs = new ArrayList<>();
 }
