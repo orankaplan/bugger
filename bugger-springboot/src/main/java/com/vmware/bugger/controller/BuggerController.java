@@ -4,7 +4,9 @@ import com.vmware.bugger.model.Culprit;
 import com.vmware.bugger.model.ErrorStack;
 import com.vmware.bugger.model.LogRequest;
 import com.vmware.bugger.model.Message;
+import com.vmware.bugger.modle.MailMessage;
 import com.vmware.bugger.service.GitBlamerService;
+import com.vmware.bugger.service.MailUtil;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,11 +17,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.vmware.bugger.model.LogRequest;
-
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -33,11 +32,12 @@ public class BuggerController {
     private GitBlamerService gitBlamerService;
 
     @RequestMapping(method = RequestMethod.GET)
-    List<Culprit> get() {
+    List<Culprit>  get() {
+        //if(sendEmail()) System.out.println("Finish sending mails");
         List<Culprit> culprits = null;
         try {
             final ErrorStack errorStack = new ErrorStack();
-            errorStack.setClassNames(Arrays.asList("IisDetector.java", "hq-plugin.xml"));
+            errorStack.setClassNames(Arrays.asList("ErrorDTO.java", "hq-plugin.xml"));
             culprits = gitBlamerService.blame(errorStack);
         } catch (GitAPIException e) {
             e.printStackTrace();
@@ -64,6 +64,16 @@ public class BuggerController {
         }
 
         return "Hello World! post";
+    }
+
+    public boolean sendEmail(){
+        String messageBody = "Bug Description: blablablablablablablablablablablablablablablablablablablablablablablablabla";
+        MailMessage mailMessage = new MailMessage("shyotam1@gmail.com",messageBody);
+        List<MailMessage> mailMessages = new ArrayList<>();
+        mailMessages.add(mailMessage);
+        MailUtil mailUtil= new MailUtil();
+        mailUtil.SendMail(mailMessages);
+        return true;
     }
 }
 
