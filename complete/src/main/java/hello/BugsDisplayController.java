@@ -1,5 +1,6 @@
 package hello;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.stereotype.Controller;
@@ -10,21 +11,13 @@ import java.util.List;
 
 @Controller
 public class BugsDisplayController {
-
+    @Autowired
+    BugRepository bugsRepo;
 
     @MessageMapping("/hello")
     @SendTo("/topic/bugs")
     public List<Bug> bugs() throws Exception {
-        List<Bug> bugs = new ArrayList<>();
-        Bug bug = new Bug();
-        bug.setDescription("NullPointerException at RefDbUploadManager.java:81");
-        bug.setBlamers(Arrays.asList("gabi@vmware.com", "okaplan@vmware.com"));
-        bugs.add(bug);
-        Bug bug2 = new Bug();
-        bug2.setDescription("NullPointerException at RefDbUploadManager.java:81");
-        bug2.setBlamers(Arrays.asList("gabi@vmware.com", "okaplan@vmware.com"));
-        bugs.add(bug2);
-        return bugs;
+        return bugsRepo.getBugs();
     }
 
 }
