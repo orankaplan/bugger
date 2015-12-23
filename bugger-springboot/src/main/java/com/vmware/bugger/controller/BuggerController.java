@@ -3,6 +3,7 @@ package com.vmware.bugger.controller;
 import com.vmware.bugger.model.Culprit;
 import com.vmware.bugger.model.ErrorStack;
 import com.vmware.bugger.model.LogRequest;
+import com.vmware.bugger.model.Message;
 import com.vmware.bugger.service.GitBlamerService;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.slf4j.Logger;
@@ -14,7 +15,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @RestController
 @EnableAutoConfiguration
@@ -36,8 +40,22 @@ public class BuggerController {
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/webhook", consumes = {"application/json"})
-    String post(@RequestBody LogRequest body) {
-        logger.info(body.getAlertName());
+    String post(@RequestBody LogRequest logRequest) throws GitAPIException {
+        String pattern = "\\.*com.vmware.*\\((.*?\\.java\\:\\d*)\\)";
+
+        Pattern r = Pattern.compile(pattern);
+        for (Message message : logRequest.getMessages()) {
+            String stackTrace = message.getText();
+            List<String> clzzs = new ArrayList<String>();
+            for (String line : stackTrace.split("\n")) {
+                Matcher m = r.matcher(line);
+                if(m.find()){
+                    clzzs.add(m.group());
+                }
+            }
+            List<Culprit> blame = gitBlamerService.blame(new ErrorStack(clzzs));
+
+        }
 
         return "Hello World! post";
     }
