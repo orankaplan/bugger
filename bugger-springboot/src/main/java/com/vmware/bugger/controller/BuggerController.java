@@ -32,19 +32,6 @@ public class BuggerController {
     private GitBlamerService gitBlamerService;
     private HashSet<String> exceptionCache = new HashSet<>();
 
-    @RequestMapping(method = RequestMethod.GET)
-    List<Culprit> get() {
-        List<Culprit> culprits = null;
-        try {
-            final ErrorStack errorStack = new ErrorStack();
-            errorStack.setClassNames(new HashSet<>(Arrays.asList("IisDetector.java", "hq-plugin.xml")));
-            culprits = gitBlamerService.blame(errorStack);
-        } catch (GitAPIException e) {
-            e.printStackTrace();
-        }
-        return culprits;
-    }
-
     @RequestMapping(method = RequestMethod.GET, value = "/reset")
     String reset() {
         exceptionCache  = new HashSet<>();
