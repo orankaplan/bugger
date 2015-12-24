@@ -35,6 +35,7 @@ public class BuggerController {
     @RequestMapping(method = RequestMethod.GET, value = "/reset")
     String reset() {
         exceptionCache  = new HashSet<>();
+        bugRepository.reset();
         return "Reset";
     }
 
@@ -92,7 +93,7 @@ public class BuggerController {
                 bug.setCommitMessage(bug.getCommitMessage() + culprit.getName() +": "+ culprit.getFullMessage() + " OR ");
             }
             String[] split = stackTrace.split("\n");
-            bug.setDescription(split[0].substring(split[0].indexOf("]")+2)+stackTrace.split("\n")[1]);
+            bug.setDescription(split[0].substring(split[0].indexOf("]")+2)+" "+stackTrace.split("\n")[1]);
             System.out.println(stackTrace.split("\n")[0]+stackTrace.split("\n")[1]);
 
             bugRepository.addBugs(bug);

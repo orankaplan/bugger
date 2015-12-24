@@ -12,6 +12,9 @@ import java.util.List;
 @Component
 public class BugRepository {
 
+    public void reset(){
+        bugs = new ArrayList<>();
+    }
     public List<Bug> getBugs() {
         return bugs;
     }
