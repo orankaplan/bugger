@@ -58,15 +58,25 @@ public class BuggerController {
             }
             exceptionCache.add(stackTraceSubString(stackTrace));
             Set<String> clzzs = new HashSet<>();
+            int counter = 0;
             for (String line : stackTrace.split("\n")) {
                 Matcher m = r.matcher(line);
                 if (m.find()) {
                     clzzs.add(m.group(1));
+                    counter++;
+                    if (counter >= 3) {
+                        break;
+                    }
                 }
             }
             Bug bug = new Bug();
+            HashSet<String> emails = new HashSet<>();
             List<Culprit> culprits = gitBlamerService.blame(new ErrorStack(clzzs));
             for (Culprit culprit : culprits) {
+                if (emails.contains(culprit.getEmail())) {
+                    continue;
+                }
+                emails.add(culprit.getEmail());
                 StringBuilder sb = new StringBuilder();
                 sb.append("Bugger found the following events on host matching the criteria for alert ").append(logRequest.getAlertName())
                         .append("Host:").append(hostName)
@@ -81,7 +91,10 @@ public class BuggerController {
                 bug.addBlamers(culprit.getName());
                 bug.setCommitMessage(bug.getCommitMessage() + culprit.getFullMessage() + "\n");
             }
-            bug.setDescription(stackTrace.split("\n")[0]);
+            String[] split = stackTrace.split("\n");
+            bug.setDescription(split[0].substring(split[0].indexOf("]")+2)+stackTrace.split("\n")[1]);
+            System.out.println(stackTrace.split("\n")[0]+stackTrace.split("\n")[1]);
+
             bugRepository.addBugs(bug);
         }
         return "Processed events";
@@ -92,7 +105,11 @@ public class BuggerController {
     }
 
     public boolean sendEmail(Culprit culprit, String message) {
-        MailMessage mailMessage = new MailMessage("gabi@vmware.com", message);
+        if (!culprit.getEmail().equals("gabi@vmware.com")) {
+            return false;
+        }
+        System.out.println(culprit.getFullMessage());
+        MailMessage mailMessage = new MailMessage(culprit.getEmail(), message);
         List<MailMessage> mailMessages = new ArrayList<>();
         mailMessages.add(mailMessage);
         MailUtil mailUtil = new MailUtil();
