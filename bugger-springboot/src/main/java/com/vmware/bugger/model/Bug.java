@@ -18,7 +18,7 @@ public class Bug {
         this.commitMessage = commitMessage;
     }
 
-    String commitMessage;
+    String commitMessage="";
 
     public List<String> getBlamers() {
         return blamers;

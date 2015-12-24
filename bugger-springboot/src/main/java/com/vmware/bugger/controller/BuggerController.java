@@ -89,7 +89,7 @@ public class BuggerController {
 
                 sendEmail(culprit, sb.toString());
                 bug.addBlamers(culprit.getName());
-                bug.setCommitMessage(bug.getCommitMessage() + culprit.getFullMessage() + "\n");
+                bug.setCommitMessage(bug.getCommitMessage() + culprit.getName() +": "+ culprit.getFullMessage() + " OR ");
             }
             String[] split = stackTrace.split("\n");
             bug.setDescription(split[0].substring(split[0].indexOf("]")+2)+stackTrace.split("\n")[1]);
