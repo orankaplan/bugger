@@ -78,9 +78,10 @@ public class BuggerController {
                         .append(stackTrace);
 
                 sendEmail(culprit, sb.toString());
-                bug.setDescription(culprit.getFullMessage());
                 bug.addBlamers(culprit.getName());
+                bug.setCommitMessage(bug.getCommitMessage() + culprit.getFullMessage() + "\n");
             }
+            bug.setDescription(stackTrace.split("\n")[0]);
             bugRepository.addBugs(bug);
         }
         return "Processed events";

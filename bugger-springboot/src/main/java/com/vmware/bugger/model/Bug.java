@@ -10,6 +10,16 @@ public class Bug {
     String description;
     List<String> blamers = new ArrayList<>();
 
+    public String getCommitMessage() {
+        return commitMessage;
+    }
+
+    public void setCommitMessage(String commitMessage) {
+        this.commitMessage = commitMessage;
+    }
+
+    String commitMessage;
+
     public List<String> getBlamers() {
         return blamers;
     }
