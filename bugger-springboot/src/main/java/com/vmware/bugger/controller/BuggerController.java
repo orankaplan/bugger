@@ -82,7 +82,7 @@ public class BuggerController {
             }
             bugRepository.addBugs(bug);
         }
-        return "Hello World! post";
+        return "Processed events";
     }
 
     private String stackTraceSubString(String stackTrace) {
