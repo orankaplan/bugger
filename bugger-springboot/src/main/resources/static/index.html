@@ -66,6 +66,9 @@
             var td1 = document.createElement("th");
             tr.appendChild(td1);
             td1.appendChild(document.createTextNode("Bug description"));
+            var td11 = document.createElement("th");
+            tr.appendChild(td11);
+            td11.appendChild(document.createTextNode("Commit message"));
             var td2 = document.createElement("th");
             tr.appendChild(td2);
             td2.appendChild(document.createTextNode("Potential Culprit"));
@@ -83,6 +86,8 @@
                 td.appendChild(checkbox)
                 td = tr.insertCell();
                 td.appendChild(document.createTextNode(data[i].description.toString()));
+                td = tr.insertCell();
+                td.appendChild(document.createTextNode(data[i].commitMessage.toString()));
                 td = tr.insertCell();
                 td.appendChild(document.createTextNode(data[i].blamers.toString()));
                 td = tr.insertCell();
