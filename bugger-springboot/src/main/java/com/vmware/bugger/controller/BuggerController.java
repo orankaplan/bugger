@@ -66,12 +66,13 @@ public class BuggerController {
             }
             Bug bug = new Bug();
             List<Culprit> culprits = gitBlamerService.blame(new ErrorStack(clzzs));
-            for (Culprit culprit : culprits.stream().filter(c -> c.getEmail().equals("gabi@vmware.com")).collect(Collectors.toList())) {
+            for (Culprit culprit : culprits) {
                 StringBuilder sb = new StringBuilder();
-                sb.append("Bugger found the following events on host ").append(hostName).append(" matching the criteria for alert ").append(logRequest.getAlertName())
+                sb.append("Bugger found the following events on host matching the criteria for alert ").append(logRequest.getAlertName())
+                        .append("Host:").append(hostName)
                         .append("\n\n")
-                        .append(culprit.getFullMessage())
-                        .append("\n\n")
+                        .append("Commit:").append(culprit.getFullMessage())
+                        .append("\n")
                         .append(culprit.getCommit())
                         .append("\n\n")
                         .append(stackTrace);
@@ -90,7 +91,7 @@ public class BuggerController {
     }
 
     public boolean sendEmail(Culprit culprit, String message) {
-        MailMessage mailMessage = new MailMessage("okaplan@vmware.com", message);
+        MailMessage mailMessage = new MailMessage("gabi@vmware.com", message);
         List<MailMessage> mailMessages = new ArrayList<>();
         mailMessages.add(mailMessage);
         MailUtil mailUtil = new MailUtil();
